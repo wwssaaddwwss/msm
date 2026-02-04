@@ -1,23 +1,30 @@
 package org.wwss;
 
-import com.google.gson.Gson;
+
+import java.io.IOException;
+import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) {
-        Gson gson = new Gson();
-    }
-    public record Configs(
-            int maxMemoryMb,
-            int minMemoryMb,
-            String javaPath
-    ) {
-        public static Configs defaultConfig() {
-            return new Configs(
-                    4096,
-                    1024,
-                    "java"
-            );
-        }
-    }
+    public static void main(String[] args) throws IOException {
+        Scanner sc = new Scanner(System.in);
+        Configs configs = ConfigLoader.load();
+        System.out.println("config loaded");
+        while (true) {
+            System.out.println("1.add a server\n" +
+                    "Q/q.leave");
+            switch (sc.nextLine()){
+                case "1":
+                    ADDServer.addServer(configs.minMemoryMb(), configs.maxMemoryMb());
+                    break;
 
+
+                case "Q":
+                case "q":
+                    System.exit(0);
+            }
+
+        }
+
+    }
 }
+

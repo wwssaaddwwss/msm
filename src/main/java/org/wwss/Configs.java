@@ -1,9 +1,12 @@
 package org.wwss;
 
-    public record Configs(
+import java.util.List;
+
+public record Configs(
         int maxMemoryMb,
         int minMemoryMb,
-        String javaPath
+        String javaPath,
+        List server
 ) {
 }
 

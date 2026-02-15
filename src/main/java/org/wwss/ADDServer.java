@@ -6,26 +6,30 @@ import java.util.Scanner;
 
 public class ADDServer {
 
+    /* ---------- Server Type ---------- */
+
     public enum ServerType {
         PAPER,
         FABRIC,
         FORGE,
         VANILLA;
 
-        public static ServerType fromIndex(int index) {
-            // index 1 ~ 4 對應 enum ordinal 0 ~ 3
-            if (index < 1 || index > values().length)
-                throw new IllegalArgumentException("Invalid index for ServerType");
-            return values()[index - 1];
-        }
-
         public static void printOptions() {
             ServerType[] types = values();
             for (int i = 0; i < types.length; i++) {
-                System.out.println((i + 1) + " -> " + types[i]);
+                System.out.println((i + 1) + ". " + types[i]);
             }
         }
+
+        public static ServerType fromIndex(int index) {
+            if (index < 1 || index > values().length) {
+                throw new IllegalArgumentException("Invalid ServerType index");
+            }
+            return values()[index - 1];
+        }
     }
+
+    /* ---------- Server Config ---------- */
 
     public record ServerConfig(
             int id,
@@ -38,45 +42,82 @@ public class ADDServer {
             List<String> jvmArgs
     ) {}
 
-    public static ServerConfig addServer(int defaultMin, int defaultMax) {
+    /* ---------- Public API ---------- */
+
+    public static ServerConfig createFromInput(Configs defaults) {
         Scanner sc = new Scanner(System.in);
 
-        System.out.println("Enter Server ID:");
-        int id = sc.nextInt();
-        sc.nextLine(); // 消耗換行符
+        System.out.print("Server ID: ");
+        int id = readInt(sc);
 
-        System.out.println("Enter Server Name:");
+        System.out.print("Server Name: ");
         String name = sc.nextLine();
 
-        System.out.println("Enter Server Directory:");
+        System.out.print("Server Directory: ");
         String directory = sc.nextLine();
 
-        System.out.println("Select Server Type:");
+        System.out.println("Server Type:");
         ServerType.printOptions();
-        int typeIndex = sc.nextInt();
-        sc.nextLine(); // 消耗換行符
-        ServerType type = ServerType.fromIndex(typeIndex);
+        System.out.print("> ");
+        ServerType type = ServerType.fromIndex(readInt(sc));
 
-        System.out.println("Enter Server Min Memory MB (D/d for default " + defaultMin + "):");
-        String minInput = sc.nextLine();
-        int minMemoryMb = (minInput.equalsIgnoreCase("D")) ? defaultMin : Integer.parseInt(minInput);
+        int minMemory = readMemory(
+                sc,
+                "Min Memory MB",
+                defaults.minMemoryMb()
+        );
 
-        System.out.println("Enter Server Max Memory MB (D/d for default " + defaultMax + "):");
-        String maxInput = sc.nextLine();
-        int maxMemoryMb = (maxInput.equalsIgnoreCase("D")) ? defaultMax : Integer.parseInt(maxInput);
+        int maxMemory = readMemory(
+                sc,
+                "Max Memory MB",
+                defaults.maxMemoryMb()
+        );
 
-        List<String> jvmArgs = new ArrayList<>();
-        jvmArgs.add("-Xms" + minMemoryMb + "M");
-        jvmArgs.add("-Xmx" + maxMemoryMb + "M");
+        List<String> jvmArgs = buildJvmArgs(minMemory, maxMemory);
+        String jar = defaultJar(type);
 
-        String jar = switch (type) {
+        return new ServerConfig(
+                id,
+                name,
+                directory,
+                type,
+                minMemory,
+                maxMemory,
+                jar,
+                jvmArgs
+        );
+    }
+
+    /* ---------- Helpers ---------- */
+
+    private static int readMemory(Scanner sc, String label, int def) {
+        System.out.print(label + " (D/d = default " + def + "): ");
+        String input = sc.nextLine().trim();
+
+        if (input.equalsIgnoreCase("d")) {
+            return def;
+        }
+        return Integer.parseInt(input);
+    }
+
+    private static int readInt(Scanner sc) {
+        int v = Integer.parseInt(sc.nextLine().trim());
+        return v;
+    }
+
+    private static List<String> buildJvmArgs(int min, int max) {
+        List<String> args = new ArrayList<>();
+        args.add("-Xms" + min + "M");
+        args.add("-Xmx" + max + "M");
+        return args;
+    }
+
+    private static String defaultJar(ServerType type) {
+        return switch (type) {
             case PAPER -> "paper.jar";
             case FABRIC -> "fabric-server.jar";
             case FORGE -> "forge.jar";
             case VANILLA -> "minecraft_server.jar";
         };
-
-        System.out.println("Server created: " + name + " (" + type + ")");
-        return new ServerConfig(id, name, directory, type, minMemoryMb, maxMemoryMb, jar, jvmArgs);
     }
 }

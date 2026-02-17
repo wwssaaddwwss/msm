@@ -9,19 +9,28 @@ public class Main {
             Scanner sc = new Scanner(System.in);
 
             Configs configs = ConfigLoader.load();
+                    
+            if (configs == null) {
+                System.err.println("Error: Failed to load configuration. Please check your configs.conf file.");
+                System.exit(1);
+            }
+                    
+            System.out.println(configs.javaPath().toString());
             System.out.println("config loaded");
 
 
 
 
             while (true) {
-                System.out.println("1.add a server\n" +
+                System.out.println(
+                        "1.add a server\n" +
+                        "2.view all servers\n" +
                         "Q/q.leave");
                 switch (sc.nextLine()){
                     case "1":
                         break;
-
-
+                    case "2":
+                        break;
                     case "Q":
                     case "q":
                         System.exit(0);

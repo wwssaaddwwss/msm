@@ -6,7 +6,6 @@ import java.util.Scanner;
 
 public class ADDServer {
 
-    /* ---------- Server Type ---------- */
 
     public enum ServerType {
         PAPER,

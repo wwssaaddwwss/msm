@@ -28,12 +28,17 @@ public class Main {
                         "Q/q.leave");
                 switch (sc.nextLine()){
                     case "1":
+                        ADDServer.create(configs,sc);
                         break;
                     case "2":
+                        MANAGEServer.main(configs,sc);
+                        break;
+                    default:
                         break;
                     case "Q":
                     case "q":
                         System.exit(0);
+                        break;
                 }
 
             }

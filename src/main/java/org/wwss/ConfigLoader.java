@@ -19,6 +19,9 @@ public class ConfigLoader {
         Configs configs;
 
         Path path = AppPaths.jarDir().resolve("configs.conf");
+        Path ServersPath =  AppPaths.jarDir().resolve("Servers");
+
+        Files.createDirectories(ServersPath);
 
         try {
             configs = GSON.fromJson(new InputStreamReader(new FileInputStream(path.toFile())), Configs.class);
@@ -29,8 +32,14 @@ public class ConfigLoader {
 
         if (configs == null) {System.err.println("Configs file might be broken.Please check on github.");}
 
+
+        if(configs.maxMemoryMb() == -1||configs.minMemoryMb() == -1||configs.serverPoint() == -1) {
+            rebuild();
+            configs = ConfigLoader.load();
+        }
         return configs;
     }
+
     public static void rebuild() throws IOException {
         Path path = AppPaths.jarDir().resolve("configs.conf");
 

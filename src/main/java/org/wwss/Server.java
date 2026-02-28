@@ -18,24 +18,28 @@ public class Server {
         this.maxMemoryMB = maxMemoryMB;
     }
 
-    // getter（Gson 不一定需要，但未來你一定會用到）
     public int getServerID() {
         return serverID;
     }
-
     public String getServerNAME() {
         return serverNAME;
     }
-
     public int getServerType() {
         return serverType;
     }
-
     public int getMinMemoryMb() {
         return minMemoryMb;
     }
-
     public int getMaxMemoryMB() {
         return maxMemoryMB;
     }
+
+    public void setServerNAME(String serverNAME) {
+        this.serverNAME = serverNAME;
+    }
+    public void setServerType(int serverType) {
+        this.serverType = serverType;
+    }
+    public void setMinMemoryMb(int minMemoryMb) {this.minMemoryMb = minMemoryMb;}
+    public void setMaxMemoryMB(int maxMemoryMB) {this.maxMemoryMB = maxMemoryMB;}
 }

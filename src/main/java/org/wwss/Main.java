@@ -5,8 +5,8 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class Main {
+    public static final Scanner sc = new Scanner(System.in);
     public static void main(String[] args) throws IOException {
-            Scanner sc = new Scanner(System.in);
 
             Configs configs = ConfigLoader.load();
                     
@@ -28,10 +28,10 @@ public class Main {
                         "Q/q.leave");
                 switch (sc.nextLine()){
                     case "1":
-                        ADDServer.create(configs,sc);
+                        ADDServer.create(configs);
                         break;
                     case "2":
-                        MANAGEServer.main(configs,sc);
+                        MANAGEServer.main(configs);
                         break;
                     default:
                         break;

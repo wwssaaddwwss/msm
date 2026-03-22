@@ -1,5 +1,6 @@
 package org.wwss;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -12,6 +13,7 @@ public class MANAGEServer {
             System.out.println("1.view all servers\n" +
                     "2.search by ID\n" +
                     "3.search by name\n" +
+                    "4.remove a server\n" +
                     "Q/q.leave");
             switch (Main.sc.nextLine()) {
                 case "1":
@@ -27,6 +29,8 @@ public class MANAGEServer {
                 case "3":
                     String NAME = Main.sc.next();
                     findByName(configs, NAME);
+                case "4":
+
                 default:
                     break;
                 case "q":
@@ -85,5 +89,25 @@ public class MANAGEServer {
             }
             configs.global().updateServer(server.getServerID(), server);
         }
+    }
+
+    public static void remove(int ID) {
+//        try {
+//            Configs configs = ConfigLoader.load();
+//
+//            List<Server> list = configs.getServers();
+//
+//            boolean removed = list.removeIf(s -> s.getId() == ID);
+//
+//            if (removed) {
+//                ConfigLoader.save(configs); // ⭐ 很重要：存回去
+//                System.out.println("刪除成功");
+//            } else {
+//                System.out.println("找不到該ID");
+//            }
+//
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
     }
 }

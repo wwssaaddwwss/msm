@@ -18,8 +18,8 @@ public class ConfigLoader {
 
         Configs configs;
 
-        Path path = AppPaths.jarDir().resolve("configs.conf");
-        Path ServersPath =  AppPaths.jarDir().resolve("Servers");
+        Path path = tool.jarDir().resolve("configs.conf");
+        Path ServersPath =  tool.jarDir().resolve("Servers");
 
         Files.createDirectories(ServersPath);
 
@@ -41,7 +41,7 @@ public class ConfigLoader {
     }
 
     public static void rebuild() throws IOException {
-        Path path = AppPaths.jarDir().resolve("configs.conf");
+        Path path = tool.jarDir().resolve("configs.conf");
 
         try (InputStream in = Thread.currentThread()
                 .getContextClassLoader()

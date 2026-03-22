@@ -1,10 +1,12 @@
 plugins {
     id("java")
     application
+    kotlin("jvm") version "1.9.22"
+    id("com.gradleup.shadow") version "9.3.0"
 }
 
 group = "org.wwss"
-version = "1.0-SNAPSHOT"
+version = "1.0"
 
 repositories {
     mavenCentral()

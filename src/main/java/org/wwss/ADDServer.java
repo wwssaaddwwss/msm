@@ -2,11 +2,13 @@ package org.wwss;
 
 import java.io.IOException;
 
+import static org.wwss.Main.sc;
+
 public class ADDServer {
     public static void create(Configs configs)throws IOException {
         Server addServer = new Server(configs.global().serverPoint(), "serverNAME", 0, 0, 0);
         System.out.println("enter server name");
-        addServer.setServerNAME(Main.sc.nextLine().trim());
+        addServer.setServerNAME(sc.nextLine().trim());
         System.out.println("""
         enter server type
         1.vanilla
@@ -15,7 +17,7 @@ public class ADDServer {
         int serverType;
 
         while (true) {
-            String input = Main.sc.nextLine().trim();
+            String input = sc.nextLine().trim();
 
             try {
                 serverType = Integer.parseInt(input);
@@ -35,20 +37,29 @@ public class ADDServer {
         boolean check = true;
         while(check){
             System.out.println("enter server memory(mb, min&max)");
-            String minn = Main.sc.next(),maxx = Main.sc.next();
-            if(tool.isNumeric4(minn) && tool.isNumeric4(maxx)){
-                int min = Integer.parseInt(minn),max = Integer.parseInt(maxx);
-                if (min == -1||max == -1) {check = false;
-                }
-                else if(max>=min){
-                    addServer.setMinMemoryMb(min);
-                    addServer.setMaxMemoryMB(max);
-                    check = false;
-                }else{
-                    System.out.println("maxMemory must be greater than minMemory");
-                }
+
+            String line = sc.nextLine();
+            String[] parts = line.trim().split("\\s+");
+
+            if (parts.length != 2) {
+                System.out.println("please enter two numbers");
+                continue;
             }
-            else System.out.println("invalid input");
+
+            int min = Integer.parseInt(parts[0]);
+            int max = Integer.parseInt(parts[1]);
+
+            System.out.println(min + " " + max);
+            if(min==-2 || max == -2) System.out.println("invalid input");
+            if (min == -1||max == -1) {check = false;
+            }
+            else if(max>=min){
+                addServer.setMinMemoryMb(min);
+                addServer.setMaxMemoryMB(max);
+                check = false;
+            }else{
+                System.out.println("maxMemory must be greater than minMemory");
+            }
         }
 
         configs.updateServer(addServer);

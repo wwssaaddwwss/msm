@@ -15,7 +15,7 @@ public class ConfigSaver {
     
 
     public static void save(Configs configs) throws IOException {
-        Path path = AppPaths.jarDir().resolve("configs.conf");
+        Path path = tool.jarDir().resolve("configs.conf");
         
         try (FileWriter writer = new FileWriter(path.toFile())) {
             GSON.toJson(configs, writer);

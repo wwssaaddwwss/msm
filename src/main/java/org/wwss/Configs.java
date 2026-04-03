@@ -46,7 +46,7 @@ public class Configs {
     }
 
     public Global global() { return global; }
-    public java.util.List<Server> servers() { return servers; }
+    public java.util.List<Server> getservers() { return servers; }
 
     public int minMemoryMb() { return global != null ? global.minMemoryMb : -1; }
     public int maxMemoryMb() { return global != null ? global.maxMemoryMb : -1; }
@@ -59,7 +59,7 @@ public class Configs {
     public void setJavaPath(String javaPath) { this.global.javaPath = javaPath; }
     public void setServerPoint(int serverPoint) { this.global.serverPoint = serverPoint; }
     public void updateServer(Server server) {
-        this.servers().add(server);
+        this.getservers().add(server);
         global.updateServer(server.getServerID(), server);
         global.idIndex.put(server.getServerID(), server);
         global.nameIndex

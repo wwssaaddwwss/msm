@@ -6,7 +6,7 @@ public class Run {
     public static void start(int ID) throws IOException {
         Configs configs = ConfigLoader.load();
         Server target = null;
-        for(Server s : configs.servers()){
+        for(Server s : configs.getservers()){
             if(s.getServerID() == ID){
                 target = s;
             }

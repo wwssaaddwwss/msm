@@ -31,7 +31,7 @@ public class Main {
                     ADDServer.create(configs);
                     break;
                 case "2":
-                    MANAGEServer.main(configs);
+                    MANAGEServer.main(configs,sc);
                     break;
                 default:
                     break;

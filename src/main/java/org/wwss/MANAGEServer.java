@@ -7,13 +7,14 @@ import java.util.List;
 import java.util.Scanner;
 
 public class MANAGEServer {
-    public static void main(Configs configs) {
+    public static void main(Configs configs,Scanner sc) {
         boolean keep = true;
         while (keep) {
             System.out.println("1.view all servers\n" +
                     "2.search by ID\n" +
                     "3.search by name\n" +
-                    "4.remove a server\n" +
+                    "4.edit a server(enter ID)\n" +
+                    "5.remove a server(enter ID)\n" +
                     "Q/q.leave");
             switch (Main.sc.nextLine()) {
                 case "1":
@@ -24,13 +25,17 @@ public class MANAGEServer {
                     if (tool.isNumeric4(ID)) {
                         PRINT(findById(configs, Integer.parseInt(ID)));
                     }
-
                     break;
                 case "3":
                     String NAME = Main.sc.next();
                     findByName(configs, NAME);
+                    break;
                 case "4":
-
+                    EDIT(configs,configs.getservers().get(sc.nextInt()), sc);
+                    break;
+                case "5":
+                    REMOVE(sc.nextInt());
+                    break;
                 default:
                     break;
                 case "q":
@@ -42,7 +47,7 @@ public class MANAGEServer {
     }
 
     public static void VIEWALL(Configs configs) {
-        List<Server> servers = new ArrayList<Server>(configs.servers());
+        List<Server> servers = new ArrayList<Server>(configs.getservers());
         for (Server server : servers) {
             System.out.println("ID:" + server.getServerID() + "\nNAME:"
                     + server.getServerNAME());
@@ -70,7 +75,7 @@ public class MANAGEServer {
         return configs.global().nameIndex.getOrDefault(name, Collections.emptyList());
     }
 
-    public static void edit(Configs configs, Server server, Scanner sc) {
+    public static void EDIT(Configs configs, Server server, Scanner sc) {
         if(server == null) System.out.println("Server is null");
         else {
             System.out.println("ID:" + server.getServerID());
@@ -91,23 +96,23 @@ public class MANAGEServer {
         }
     }
 
-    public static void remove(int ID) {
-//        try {
-//            Configs configs = ConfigLoader.load();
-//
-//            List<Server> list = configs.getServers();
-//
-//            boolean removed = list.removeIf(s -> s.getId() == ID);
-//
-//            if (removed) {
-//                ConfigLoader.save(configs); // ⭐ 很重要：存回去
-//                System.out.println("刪除成功");
-//            } else {
-//                System.out.println("找不到該ID");
-//            }
-//
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
+    public static void REMOVE(int ID) {
+        try {
+            Configs configs = ConfigLoader.load();
+
+            List<Server> list = configs.getservers();
+
+            boolean removed = list.removeIf(s -> s.getServerID() == ID);
+
+            if (removed) {
+                ConfigSaver.save(configs);
+                System.out.println("Removed succesfully");
+            } else {
+                System.out.println("Cannot remove server");
+            }
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

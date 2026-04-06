@@ -15,7 +15,6 @@ public class Main {
             System.exit(1);
         }
 
-        System.out.println(configs.javaPath().toString());
         System.out.println("config loaded");
 
 
@@ -24,15 +23,19 @@ public class Main {
         while (true) {
             System.out.println(
                     "1.add a server\n" +
-                    "2.view all servers\n" +
+                    "2.manage all servers\n" +
+                    "3.run a server\n" +
                     "Q/q.leave");
             switch (sc.nextLine()){
                 case "1":
                     ADDServer.create(configs);
                     break;
                 case "2":
-                    MANAGEServer.main(configs,sc);
+                    MANAGEServer.manage(configs,sc);
                     break;
+                case "3":
+                    System.out.println("enter the server ID");
+                    Run.start(sc.nextInt());
                 default:
                     break;
                 case "Q":

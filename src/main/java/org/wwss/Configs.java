@@ -20,10 +20,10 @@ public class Configs {
         public transient Map<String, List<Server>> nameIndex = new HashMap<>();
         
         // Getters
-        public int minMemoryMb() { return minMemoryMb; }
-        public int maxMemoryMb() { return maxMemoryMb; }
-        public String javaPath() { return javaPath; }
-        public int serverPoint() { return serverPoint; }
+        public int getminMemoryMb() { return minMemoryMb; }
+        public int getmaxMemoryMb() { return maxMemoryMb; }
+        public String getjavaPath() { return javaPath; }
+        public int getserverPoint() { return serverPoint; }
 
         //Setters
         public void setminMemoryMb(int minMemoryMb) { this.minMemoryMb = minMemoryMb; }

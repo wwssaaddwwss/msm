@@ -1,12 +1,14 @@
 package org.wwss;
 
-import java.io.IOException;
+import java.io.*;
+import java.net.URL;
+import java.nio.file.*;
 
 import static org.wwss.Main.sc;
 
 public class ADDServer {
     public static void create(Configs configs)throws IOException {
-        Server addServer = new Server(configs.global().serverPoint(), "serverNAME", 0, 0, 0);
+        Server addServer = new Server(configs.global().getserverPoint(), "serverNAME", 0, 0, 0);
         System.out.println("enter server name");
         addServer.setServerNAME(sc.nextLine().trim());
         System.out.println("""
@@ -62,11 +64,15 @@ public class ADDServer {
             }
         }
 
+
+
         configs.updateServer(addServer);
-        configs.setServerPoint(configs.global().serverPoint()+1);
+        configs.setServerPoint(configs.global().getserverPoint()+1);
         try {
+            Downloader.download(configs.global().getserverPoint()+1,addServer.getServerType());
             ConfigSaver.save(configs);
         } catch (IOException e) {
+            System.out.println("Failed to save");
             throw new RuntimeException(e);
         }
     }

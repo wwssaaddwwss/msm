@@ -37,7 +37,6 @@ tasks.jar {
         attributes["Implementation-Title"] = "MSM"
         attributes["Implementation-Version"] = version
     }
-    // 创建 fat jar，包含所有依赖
     from(configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }

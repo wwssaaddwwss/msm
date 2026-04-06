@@ -5,13 +5,9 @@ import java.io.IOException;
 public class Run {
     public static void start(int ID) throws IOException {
         Configs configs = ConfigLoader.load();
-        Server target = null;
-        for(Server s : configs.getservers()){
-            if(s.getServerID() == ID){
-                target = s;
-            }
-        }
-        String javaCmd = "java",min = "Xms" + target.getMinMemoryMb() + "M",max = "Xmx" + target.getMaxMemoryMB() + "M",jar = "-jar",Path = tool.jarDir().toString()+ target.getServerID(),file = target.getServerType();
+        Server target = configs.getservers().get(ID);
+        String javaCmd = "java -Xms" + target.getMinMemoryMb() + "M -Xmx" + target.getMaxMemoryMB() + "M -jar " + tool.jarDir().toString()  + "Servers\\" + target.getServerID() + "\\server.jar";
+        System.out.println(javaCmd + "\n");
     }
 
 }

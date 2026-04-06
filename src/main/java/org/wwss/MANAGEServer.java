@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class MANAGEServer {
-    public static void main(Configs configs,Scanner sc) {
+    public static void manage(Configs configs,Scanner sc) {
         boolean keep = true;
         while (keep) {
             System.out.println("1.view all servers\n" +
